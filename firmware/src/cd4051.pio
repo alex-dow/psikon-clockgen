@@ -1,0 +1,6 @@
+.program cd4051
+  set pindirs, 1;
+again:
+  set pins, 1;
+  set pins, 0;
+  jmp again;
