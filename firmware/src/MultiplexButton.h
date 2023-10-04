@@ -20,8 +20,10 @@ private:
   uint8_t s2;
   uint8_t com;
 
+  uint32_t setTime = 0;
+
   uint8_t lastComState;
-  uint32_t lastReadTime = 0;
+
   bool pressed = false;
   uint8_t counter = 0;
   bool reading = true;

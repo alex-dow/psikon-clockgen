@@ -105,10 +105,6 @@ void createWaveTable(uint16_t *array, uint16_t points, float amplitude, float of
   {
     v_const = (4096 / MCP_VREF) * amplitude / 1;
   }
-  else if (wave == Wave::DC)
-  {
-    v_const = (4096 / MCP_VREF) * amplitude / 1;
-  }
   else
     ;
 
@@ -144,11 +140,7 @@ void createWaveTable(uint16_t *array, uint16_t points, float amplitude, float of
         temp = (int32_t)temp_float;
       }
     }
-    else if (wave == Wave::DC)
-    {
-      temp_float = (float)(4096 / MCP_VREF) * offset;
-      temp = (int32_t)temp_float;
-    }
+
     else
       ;
 

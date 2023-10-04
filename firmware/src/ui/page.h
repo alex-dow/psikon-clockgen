@@ -36,11 +36,7 @@ public:
   virtual void moveForward() {}
   virtual void moveBackward() {}
   virtual void encButtonClicked() {}
-  virtual void buttonAClicked() {}
-  virtual void buttonChn1Clicked() {}
-  virtual void buttonChn2Clicked() {}
-  virtual void buttonChn3Clicked() {}
-  virtual void buttonChn4Clicked() {}
+  virtual void buttonClicked(uint8_t btn) {}
 
   TFT_eSPI *tft;
   bool needsRender;

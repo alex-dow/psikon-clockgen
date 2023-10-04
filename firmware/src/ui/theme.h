@@ -7,6 +7,14 @@
 #define AA_FONT_LARGE "NotoSansBold36"
 #define MONO_FONT_SMALL "ShareTechMono-Regular-16"
 #define MONO_FONT_MED "ShareTechMono-Regular-24"
+#define MONO_FONT_LARGE "ShareTechMono-Regular-32"
+
+#define MONO_FONT_SMALL_WIDTH 8
+#define MONO_FONT_SMALL_HEIGHT 8
+#define MONO_FONT_MED_WIDTH 11
+#define MONO_FONT_MED_HEIGHT 19
+#define MONO_FONT_LARGE_WIDTH 15
+#define MONO_FONT_LARGE_HEIGHT 15
 
 struct UserTheme
 {
@@ -19,6 +27,7 @@ struct UserTheme
   uint16_t selectBgColor;
   uint16_t darkBorderColor;
   uint16_t lightBorderColor;
+  uint16_t disabledColor;
   void setDefault()
   {
     /*
@@ -41,6 +50,7 @@ struct UserTheme
     infoColor = TFT_BLUE;
     selectColor = TFT_DARKCYAN;
     selectBgColor = TFT_DARKGREY;
+    disabledColor = 0x3986;
   }
 };
 

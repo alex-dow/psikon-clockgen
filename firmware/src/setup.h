@@ -12,7 +12,7 @@
 /* #endregion */
 
 /* #region ENCODER SETUP */
-#define ENCODER_SW_PIN 16
+#define ENCODER_SW_PIN 17
 #define ENCODER_CLK_PIN 18
 #define ENCODER_DT_PIN 19
 

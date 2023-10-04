@@ -12,7 +12,7 @@ enum Wave
   SINE = 0,
   RAMP,
   SQUARE,
-  DC
+  OFF
 };
 
 void generateSawWave(uint16_t *array, uint16_t maxSamples, float vref);

@@ -1,6 +1,5 @@
 #include "MultiplexButton.h"
 #include <Arduino.h>
-#include "pico/stdlib.h"
 
 int bits[8] = {
     0x00,
@@ -29,8 +28,6 @@ void MultiplexButton::begin()
   for (int gpio = s0; gpio < s2 + 1; gpio++)
   {
     pinMode(gpio, OUTPUT);
-    // gpio_init(gpio);
-    // gpio_set_dir(gpio, GPIO_OUT);
   }
 
   pinMode(this->com, INPUT_PULLDOWN);
@@ -38,6 +35,9 @@ void MultiplexButton::begin()
 
 void MultiplexButton::tick()
 {
+
+  unsigned long currentTime = millis();
+
   if (reading)
   {
     uint32_t mask = bits[counter];
@@ -49,10 +49,10 @@ void MultiplexButton::tick()
     digitalWrite(s1, b);
     digitalWrite(s2, c);
 
-    lastReadTime = millis();
+    setTime = millis();
     reading = false;
   }
-  else if (reading == false && millis() - lastReadTime > 10)
+  else if (reading == false && currentTime - setTime > 10)
   {
     int value = digitalRead(this->com);
     if (value == 0)

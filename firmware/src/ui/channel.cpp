@@ -46,6 +46,17 @@ void Channel::setFrequency(float freq)
 void Channel::setWave(Wave w)
 {
   wave = w;
+  if (w == Wave::OFF)
+  {
+    deactivate();
+  }
+  else
+  {
+    if (!isActive())
+    {
+      activate();
+    }
+  }
   generateWave();
 };
 

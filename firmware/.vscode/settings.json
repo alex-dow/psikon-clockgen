@@ -1,0 +1,6 @@
+{
+  "files.associations": {
+    "*.css": "tailwindcss",
+    "glcdfont.c": "cpp"
+  }
+}

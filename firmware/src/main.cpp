@@ -11,7 +11,6 @@
 #include "./dac/MCP48xx.h"
 #include "./dac/waveUtils.h"
 #include "./ui/channel.h"
-#include "AnalogButton.h"
 #include "MultiplexButton.h"
 #define FlashFS LittleFS
 
@@ -27,8 +26,7 @@ Channel chn1(MCP1, CHANNEL_A);
 Channel chn2(MCP1, CHANNEL_B);
 Channel chn3(MCP2, CHANNEL_A);
 Channel chn4(MCP2, CHANNEL_B);
-// AnalogButton btn(BTN_ADC_PIN, 6);
-MultiplexButton btn2(BTN_S0, BTN_S1, BTN_S2, BTN_COM);
+MultiplexButton buttons(BTN_S0, BTN_S1, BTN_S2, BTN_COM);
 
 Channel channels[4] = {
     chn1, chn2, chn3, chn4};
@@ -82,7 +80,6 @@ void setup_encoder()
   tft.setTextColor(theme.successColor);
   Serial.println("OK");
   tft.println("OK");
-  delay(1000);
 }
 
 void setup_fs()
@@ -96,34 +93,17 @@ void setup_fs()
     }
   }
   Serial.println("OK");
-
-  if (LittleFS.exists("/NotoSansBold15.vlw") == false)
-  {
-    Serial.println("MISSING BOLD15");
-    while (1)
-    {
-    }
-  }
-  if (LittleFS.exists("/NotoSansBold36.vlw") == false)
-  {
-    Serial.println("MISSING BOLD36");
-    while (1)
-    {
-    }
-  }
-  Serial.println("OK");
 }
 
 void button_clicked(uint8_t btn)
 {
-  Serial.print("Button clicked: ");
-  Serial.println(btn);
+  oscPage.buttonClicked(btn);
 }
 
 void setup_buttons()
 {
-  btn2.onClicked(button_clicked);
-  btn2.begin();
+  buttons.onClicked(button_clicked);
+  buttons.begin();
 
   pinMode(SW_PIN, INPUT);
 }
@@ -146,15 +126,15 @@ void setup_dac()
   for (int i = 0; i < 4; i++)
   {
     channels[i].setBufferSize(511);
-    channels[i].setWave(Wave::SINE);
-    channels[i].setFrequency(1);
+    channels[i].setWave(Wave::OFF);
+    channels[i].setFrequency(0.01);
     channels[i].deactivate();
   }
 
-  Serial.println("OK");
-
   MCP1.updateDAC();
   MCP2.updateDAC();
+
+  Serial.println("OK");
 }
 
 void setup()
@@ -163,16 +143,16 @@ void setup()
   while (!Serial)
     ;
   delay(1000);
-  Serial.println("\n/*** SIGNAL GENERATOR ***/");
+  Serial.println("\n/*** PSIKON CLOCKGEN ***/");
   setup_fs();
   setup_tft();
   setup_encoder();
   setup_buttons();
   setup_dac();
 
-  oscPage.render();
-
   Serial.println("Ready!\n");
+
+  oscPage.render();
 }
 
 int lastSwitchValue;
@@ -189,7 +169,7 @@ void tickButtons()
     lastSwitchValue = sw;
   }
 
-  btn2.tick();
+  buttons.tick();
 }
 
 int32_t lastEncoderValue = 0;
@@ -228,35 +208,6 @@ void tickEncoder()
 void handle_button_enc(Button2 &btn)
 {
   oscPage.encButtonClicked();
-}
-
-void handle_button_a(Button2 &btn)
-{
-  oscPage.buttonAClicked();
-}
-
-void handle_button_chn1(Button2 &btn)
-{
-  oscPage.buttonChn1Clicked();
-  Serial.println("Channel 1 button pressed");
-}
-
-void handle_button_chn2(Button2 &btn)
-{
-  oscPage.buttonChn2Clicked();
-  Serial.println("Channel 2 button pressed.");
-}
-
-void handle_button_chn3(Button2 &btn)
-{
-  oscPage.buttonChn3Clicked();
-  Serial.println("Channel 3 button pressed");
-}
-
-void handle_button_chn4(Button2 &btn)
-{
-  oscPage.buttonChn4Clicked();
-  Serial.println("Channel 4 button pressed");
 }
 
 void tickChannels()
